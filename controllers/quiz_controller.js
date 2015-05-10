@@ -16,7 +16,14 @@ exports.answer=function(req,res){
 };
 
 exports.index = function(req,res){
+	if(req.query.search!==undefined){
+	var searchStr='%'+req.query.search.replace(' ','%')+'%';
+	models.Quiz.findAll({where: ["pregunta like ?", searchStr]}).then(function(quizes){
+		res.render('quizes/index.ejs',{quizes:quizes});
+	});
+	}else{
 	models.Quiz.findAll().then(function(quizes){
 		res.render('quizes/index.ejs',{quizes:quizes});
 	});
+	}
 }
