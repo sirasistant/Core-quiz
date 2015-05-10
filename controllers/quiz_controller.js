@@ -19,6 +19,13 @@ exports.index = function(req,res){
 	if(req.query.search!==undefined){
 	var searchStr='%'+req.query.search.replace(' ','%')+'%';
 	models.Quiz.findAll({where: ["pregunta like ?", searchStr]}).then(function(quizes){
+		quizes.sort(function(a,b){
+			if(a.pregunta==b.pregunta)
+				return 0;
+			if(a.pregunta>b.pregunta)
+				return 1;
+			return -1;
+		});
 		res.render('quizes/index.ejs',{quizes:quizes});
 	});
 	}else{
