@@ -9,10 +9,12 @@ router.get('/', function(req, res, next) {
 });
 router.param('quizId', quizController.load);
 router.get('/quizes',quizController.index);
+router.get('/quizes/new',quizController.new);
 router.get('/quizes/:quizId(\\d+)',quizController.show);
 router.get('/quizes/:quizId(\\d+)/answer',quizController.answer);
 router.get('/author', function (req, res, next) {
 	res.render('author', {authors: 'Creadores', author1: {name: 'Álvaro Rodríguez', photo: "images/alvaro.jpg"}, author2: { name: 'Gregorio Juliana', photo: "images/gregorio.jpg"}});
 });
+router.post('/quizes/create',quizController.create);
 
 module.exports = router;
