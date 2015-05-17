@@ -19,4 +19,5 @@ router.get('/author', function (req, res, next) {
 });
 router.post('/quizes/create',quizController.create);
 router.put('/quizes/:quizId(\\d+)',quizController.update);
+router.delete('/quizes/:quidId(\\d+)', quizController.destroy);
 module.exports = router;
