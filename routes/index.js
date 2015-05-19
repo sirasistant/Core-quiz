@@ -32,5 +32,6 @@ router.delete('/quizes/:quizId(\\d+)',sessionController.loginRequired, quizContr
 
 router.get('/quizes/:quizId(\\d+)/comments/new', commentController.new);
 router.post('/quizes/:quizId(\\d+)/comments', commentController.create);
+router.get('/quizes/statistics', quizController.getStatistics);
 
 module.exports = router;
