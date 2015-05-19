@@ -37,6 +37,20 @@ app.use(function(req,res,next){
   next();
 });
 
+app.use(function(req,res,next){
+  var user=req.session.user;
+  if(user){
+    var lastTime=user.time;
+    var currTime=new Date().getTime();
+    if(currTime-lastTime>120000){
+      req.session.user=undefined;
+    }else{
+      req.session.user.time=currTime;
+    }
+  }
+  next();
+});
+
 app.use('/', routes);
 
 // catch 404 and forward to error handler
