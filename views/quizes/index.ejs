@@ -17,6 +17,13 @@
 					</button>
 				</form>
 			</td>
+			<td>
+				<form method="post" action="/user/<%= session.user.id %>/favourites/<%= quizes[i].id %>?_method=put">
+					<button type="submit">
+						favorito
+					</button>
+				</form>
+				</td>
 			<% } 
 		} %>
 	</tr>

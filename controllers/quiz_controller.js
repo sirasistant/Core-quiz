@@ -142,4 +142,4 @@ exports.getStatistics = function (req, res) {
 		statistics.medianComments = statistics.totalComments/statistics.totalQuizes;
 		res.render('quizes/statistics', {statistics: statistics, errors: []});
 	});
-}
+};

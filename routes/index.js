@@ -6,6 +6,7 @@ var quizController=require('../controllers/quiz_controller');
 var commentController = require('../controllers/comment_controller');
 var sessionController=require('../controllers/session_controller');
 var userController=require('../controllers/user_controller');
+var favouriteController=require('../controllers/favourite_controller');
 
 
 
@@ -25,8 +26,7 @@ router.get('/login',sessionController.new).post('/login',sessionController.creat
 router.get('/logout',sessionController.destroy);
 
 //Users
-router.get('/user',userController.new);
-router.post('/user',userController.create);
+router.get('/user',userController.new).post('/user',userController.create);
 router.get('/user/:userId(\\d+)/edit',sessionController.loginRequired,userController.edit);
 router.put('/user/:userId(\\d+)',sessionController.loginRequired,userController.update);
 router.delete('/user/:userId(\\d+)',sessionController.loginRequired,userController.destroy);
@@ -40,6 +40,11 @@ router.post('/quizes/create',sessionController.loginRequired, multer({ dest: './
 router.get('/quizes/:quizId(\\d+)/edit',sessionController.loginRequired,quizController.ownershipRequired, quizController.edit);
 router.put('/quizes/:quizId(\\d+)', sessionController.loginRequired, multer({ dest: './public/media'}), quizController.ownershipRequired, quizController.update);
 router.delete('/quizes/:quizId(\\d+)',sessionController.loginRequired, quizController.ownershipRequired, quizController.destroy);
+
+//Favourites
+router.get('/user/:userId/favourites', sessionController.loginRequired, favouriteController.getFavourites);
+router.put('/user/:userId/favourites/:quizId(\\d+)', sessionController.loginRequired, favouriteController.setFavourite);
+router.delete('/user/:userId/favourites/:quizId(\\d+)', sessionController.loginRequired, favouriteController.deleteFavourite);
 
 // Comments
 router.get('/quizes/:quizId(\\d+)/comments/new', commentController.new);

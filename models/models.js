@@ -32,11 +32,17 @@ var Comment = sequelize.import(comment_path);
 var user_path= path.join(__dirname,'user.js');
 var User = sequelize.import(user_path);
 
+var favourite_path = path.join(__dirname, 'favourite.js');
+var Favourite = sequelize.import(favourite_path);
+
 Comment.belongsTo(Quiz);
 Quiz.hasMany(Comment);
 
 Quiz.belongsTo(User);
 User.hasMany(Quiz);
+
+User.belongsToMany(Quiz, {through: 'Favourite'});
+Quiz.belongsToMany(User, {through: 'Favourite'});
 
 exports.Quiz = Quiz;
 exports.Comment = Comment;
