@@ -10,6 +10,7 @@
 		<% if(session.user){
 		 if(session.user.isAdmin || session.user.id === quizes[i].UserId) {%>
 			<td><a href="/quizes/<%= quizes[i].id %>/edit"><button>editar</button></a></td>
+
 			<td>
 				<form method="post" action="/quizes/<%= quizes[i].id %>?_method=delete">
 					<button type="submit" onClick="return confirm('Borrar: <%= quizes[i].pregunta %>' );">
@@ -18,9 +19,9 @@
 				</form>
 			</td>
 			<td>
-				<form method="post" action="/user/<%= session.user.id %>/favourites/<%= quizes[i].id %>?_method=put">
-					<button type="submit">
-						favorito
+				<form onsubmit="if(<%= favourited[i] %>)return confirm('Are you sure?');else return true;" method="post" action="/user/<%= session.user.id %>/favourites/<%= quizes[i].id %>?_method=<%= favourited[i]? 'delete': 'put' %>">
+					<button class="imageButton" type="submit"><img src="/<%= favourited[i]? 'favourited.png': 'unfavourited.png' %>" />
+						
 					</button>
 				</form>
 				</td>

@@ -11,3 +11,9 @@ nav span {margin: 0px 10px 0px 0px;width:100%; display:inline-block;}
 #ErrorMsgs {color:#f61;font-size: smaller}
 .right {float: right;}
 .quiz_img {height: 150px; float: left;}
+.imageButton {
+    border: none;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+}

@@ -30,9 +30,9 @@ router.get('/user',userController.new).post('/user',userController.create);
 router.get('/user/:userId(\\d+)/edit',sessionController.loginRequired,userController.edit);
 router.put('/user/:userId(\\d+)',sessionController.loginRequired,userController.update);
 router.delete('/user/:userId(\\d+)',sessionController.loginRequired,userController.destroy);
-router.get('/user/:userId(\\d+)/quizes',quizController.index);
+router.get('/user/:userId(\\d+)/quizes',userController.loadSessionUser,quizController.index);
 // Quizes
-router.get('/quizes',quizController.index);
+router.get('/quizes',userController.loadSessionUser,quizController.index);
 router.get('/quizes/:quizId(\\d+)',quizController.show);
 router.get('/quizes/:quizId(\\d+)/answer',quizController.answer);
 router.get('/quizes/new',sessionController.loginRequired,quizController.new);

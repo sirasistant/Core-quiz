@@ -12,6 +12,11 @@ var routes = require('./routes/index');
 
 var app = express();
 
+Array.prototype.repeat= function(what, L){
+ while(L) this[--L]= what;
+ return this;
+}
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');

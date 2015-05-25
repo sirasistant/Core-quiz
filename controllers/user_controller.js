@@ -25,6 +25,17 @@ exports.ownershipRequired = function (req, res, next) {
 	}
 };
 
+exports.loadSessionUser = function(req,res,next){
+	var session=req.session.user;
+	if(session){
+		models.User.find({
+			where:{id:session.id},
+			include: [{ model: models.Quiz }]}).then(function(user){
+				req.currentUser=user;
+				next();
+			});
+	}else{next();}
+}
 
 exports.autenticar = function(login,password,callback){
 	models.User.find({

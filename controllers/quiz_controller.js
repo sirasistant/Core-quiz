@@ -15,7 +15,7 @@ exports.ownershipRequired = function (req, res, next) {
 exports.load = function (req, res, next, quizId) {
 	models.Quiz.find({
 		where: { id: Number(quizId) },
-		include: [{ model: models.Comment }]
+		include: [{ model: models.Comment },{model:models.User}]
 	}).then(
 		function (quiz) {
 			if (quiz) {
@@ -26,9 +26,17 @@ exports.load = function (req, res, next, quizId) {
 };
 
 exports.show = function (req, res) {
-	models.Quiz.find(req.params.quizId).then(function (quiz) {
-		res.render('quizes/show', { quiz: req.quiz, errors: [] });
-	});
+	var show=function(isFavourite){
+		res.render('quizes/show', { quiz: req.quiz, errors: [],isFavourite:isFavourite });
+	}
+	if(req.session.user){
+		req.quiz.hasUser(req.session.user.id).then(function(hasUser){
+			show(hasUser);
+		});
+	}else{
+		show(false);
+	}
+	
 };
 
 exports.answer = function (req, res) {
@@ -46,6 +54,29 @@ exports.index = function (req, res) {
 		options.where = {UserId:req.user.id}
 	}
 
+	var findFavourites=function(quizes,then){
+		var userHasQuiz = function(user, quiz, callback) {
+				user.hasQuiz(quiz.id).then(function(result){
+					return callback(quiz, result);
+				});
+			};
+			var favourited= [].repeat(false, quizes.length);
+			var checked=0;
+			
+			if(req.currentUser){
+				for(var i=0;i<quizes.length;i++){
+					quizes[i].indexInArr=i;
+					userHasQuiz(req.currentUser, quizes[i], function(quiz, result){
+						favourited[quiz.indexInArr] = result;
+						checked++;
+						if(checked == quizes.length) then(favourited);
+					});
+				}
+			}else{
+				then(favourited);
+			}
+	}
+
 	if (req.query.search !== undefined) {
 		var searchStr = '%' + req.query.search.replace(' ', '%') + '%';
 		models.Quiz.findAll({ where: ["pregunta like ?", searchStr] }).then(function (quizes) {
@@ -56,12 +87,19 @@ exports.index = function (req, res) {
 					return 1;
 				return -1;
 			});
-			res.render('quizes/index.ejs', { quizes: quizes, errors: [] });
+			findFavourites(quizes,function(favourited){
+				res.render('quizes/index.ejs', { quizes: quizes, errors: [],favourited:favourited });
+			})
 		});
 	} else {
 		models.Quiz.findAll(options).then(function (quizes) {
-			res.render('quizes/index.ejs', { quizes: quizes, errors: [] });
+			var show=function(favourited){
+				console.log(favourited);
+				res.render('quizes/index.ejs', { quizes: quizes, errors: [],favourited:favourited });
+			}
+			findFavourites(quizes,show);
 		});
+		
 	}
 };
 
