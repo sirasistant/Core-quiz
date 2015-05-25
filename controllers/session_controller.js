@@ -3,7 +3,7 @@ exports.new =function(req,res){
 	req.session.errors={};
 
 	res.render('sessions/new',{errors:errors});
-}
+};
 
 exports.create=function(req,res){
 
@@ -21,7 +21,7 @@ exports.create=function(req,res){
 
 		res.redirect(req.session.redir.toString());
 	});
-}
+};
 
 exports.destroy=function(req,res){
 	delete req.session.user;

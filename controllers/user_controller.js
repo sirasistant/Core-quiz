@@ -7,7 +7,7 @@ exports.ownershipRequired = function (req, res, next) {
 	
 	if(isAdmin || objUser === logUser) {
 		next();
-	}	else {
+	} else {
 		res.redirect('/');
 	}
 };
@@ -28,4 +28,4 @@ exports.autenticar = function(login,password,callback){
 	}else{
 		callback(new Error('No existe el usuario'));
 	}
-}
+};
