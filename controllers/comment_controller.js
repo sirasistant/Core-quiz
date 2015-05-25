@@ -3,7 +3,7 @@ var models = require('../models/models.js');
 exports.ownershipRequired = function (req, res, next) {
 	models.Quiz.find({
 		where: {
-			id: Number(req.Comment.QuizId)
+			id: Number(req.comment.QuizId)
 		}
 	}).then(function (quiz) {
 		if (quiz) {

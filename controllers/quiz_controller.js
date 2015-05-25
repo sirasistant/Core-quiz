@@ -1,6 +1,5 @@
 var models = require('../models/models.js');
 
-
 exports.ownershipRequired = function (req, res, next) {
 	var objQuizOwner = req.quiz.UserId;
 	var logUser = req.session.user.id;
