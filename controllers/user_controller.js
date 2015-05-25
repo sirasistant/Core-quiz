@@ -12,7 +12,19 @@ exports.load = function(req,res,next,userId){
 	}).catch(function(error){
 		next(error);
 	});
+
+exports.ownershipRequired = function (req, res, next) {
+	var objUser = req.user.id;
+	var logUser = req.session.user.id;
+	var isAdmin = req.session.user.isAdmin;
+	
+	if(isAdmin || objUser === logUser) {
+		next();
+	} else {
+		res.redirect('/');
+	}
 };
+
 
 exports.autenticar = function(login,password,callback){
 	models.User.find({
@@ -30,7 +42,7 @@ exports.autenticar = function(login,password,callback){
 			callback(new Error('No existe el usuario'));
 		}
 	}).catch(function(error){callback(error);});
-}
+};
 
 exports.edit = function(req,res){
 	res.render('user/edit',{user:req.user,errors:[]});
@@ -52,7 +64,7 @@ exports.update = function(req,res,next){
 exports.new = function(req,res){
 	var user = models.User.build({username:"",password:""});
 	res.render('user/new',{user:user,errors:[]});
-}
+};
 
 exports.create = function(req,res){
 	var user= models.User.build(req.body.user);
@@ -65,11 +77,12 @@ exports.create = function(req,res){
 				res.redirect('/');
 			});
 		}
-	}).catch(function(error){next(error)});
+	}).catch(function(error){next(error);});
 };
+
 exports.destroy = function(req,res){
 	req.user.destroy().then(function(){
 		delete req.session.user;
 		res.redirect('/');
 	}).catch(function(error){next(error);});
-}
+};

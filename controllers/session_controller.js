@@ -3,7 +3,7 @@ exports.new =function(req,res){
 	req.session.errors={};
 
 	res.render('sessions/new',{errors:errors});
-}
+};
 
 exports.create=function(req,res){
 
@@ -17,11 +17,11 @@ exports.create=function(req,res){
 			res.redirect('/login');
 			return;
 		}
-		req.session.user={id:user.id,username:user.username,time:new Date().getTime()};
+		req.session.user={id:user.id,username:user.username,time:new Date().getTime(), isAdmin: user.isAdmin};
 
 		res.redirect(req.session.redir.toString());
 	});
-}
+};
 
 exports.destroy=function(req,res){
 	delete req.session.user;
