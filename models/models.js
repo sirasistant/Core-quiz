@@ -35,8 +35,8 @@ var User = sequelize.import(user_path);
 Comment.belongsTo(Quiz);
 Quiz.hasMany(Comment);
 
-User.hasMany(Quiz);
 Quiz.belongsTo(User);
+User.hasMany(Quiz);
 
 exports.Quiz = Quiz;
 exports.Comment = Comment;
@@ -49,11 +49,13 @@ sequelize.sync().then(function(){
 					{username:'pepe',password:'5678'}]).then(function(){
 				Quiz.create({
 					pregunta:"Capital de Italia",
-					respuesta:"Roma"
+					respuesta:"Roma",
+					UserId:2
 				});
 				Quiz.create({
 					pregunta:"Capital de Portugal",
-					respuesta:"Lisboa"
+					respuesta:"Lisboa",
+					UserId:2
 				}).then(function(){console.log("Base de datos inicializada");});
 				});
 			}

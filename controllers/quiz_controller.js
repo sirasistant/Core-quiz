@@ -41,6 +41,11 @@ exports.answer = function (req, res) {
 };
 
 exports.index = function (req, res) {
+	var options={};
+	if(req.user){
+		options.where = {UserId:req.user.id}
+	}
+
 	if (req.query.search !== undefined) {
 		var searchStr = '%' + req.query.search.replace(' ', '%') + '%';
 		models.Quiz.findAll({ where: ["pregunta like ?", searchStr] }).then(function (quizes) {
@@ -54,7 +59,7 @@ exports.index = function (req, res) {
 			res.render('quizes/index.ejs', { quizes: quizes, errors: [] });
 		});
 	} else {
-		models.Quiz.findAll().then(function (quizes) {
+		models.Quiz.findAll(options).then(function (quizes) {
 			res.render('quizes/index.ejs', { quizes: quizes, errors: [] });
 		});
 	}
@@ -77,7 +82,7 @@ exports.create = function (req, res) {
 		if (err) {
 			res.render('quizes/new', { quiz: quiz, errors: err.errors });
 		} else {
-			quiz.save({ fields: ["pregunta", "respuesta", "image"] }).then(function () {
+			quiz.save({ fields: ["pregunta", "respuesta", "image","UserId"] }).then(function () {
 				res.redirect("/quizes");
 			});
 		}

@@ -30,7 +30,7 @@ router.post('/user',userController.create);
 router.get('/user/:userId(\\d+)/edit',sessionController.loginRequired,userController.edit);
 router.put('/user/:userId(\\d+)',sessionController.loginRequired,userController.update);
 router.delete('/user/:userId(\\d+)',sessionController.loginRequired,userController.destroy);
-
+router.get('/user/:userId(\\d+)/quizes',quizController.index);
 // Quizes
 router.get('/quizes',quizController.index);
 router.get('/quizes/:quizId(\\d+)',quizController.show);
