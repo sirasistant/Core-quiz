@@ -63,7 +63,7 @@ exports.index = function (req, res) {
 			var favourited= [].repeat(false, quizes.length);
 			var checked=0;
 			
-			if(req.currentUser){
+			if(req.currentUser&&quizes.length>0){
 				for(var i=0;i<quizes.length;i++){
 					quizes[i].indexInArr=i;
 					userHasQuiz(req.currentUser, quizes[i], function(quiz, result){
