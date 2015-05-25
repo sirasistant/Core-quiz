@@ -23,6 +23,7 @@
     "method-override": "~2.3.3",
     "express-session": "~1.11.2",
     "fs": "0.0.2",
-    "https": "~1.0.0"
+    "https": "~1.0.0",
+    "crypto": "0.0.3"
   }
 }

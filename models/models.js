@@ -29,23 +29,33 @@ var Quiz = sequelize.import(quiz_path);
 var comment_path = path.join(__dirname, 'comment');
 var Comment = sequelize.import(comment_path);
 
+var user_path= path.join(__dirname,'user.js');
+var User = sequelize.import(user_path);
+
 Comment.belongsTo(Quiz);
 Quiz.hasMany(Comment);
 
-exports.Quiz=Quiz;
+User.hasMany(Quiz);
+Quiz.belongsTo(User);
+
+exports.Quiz = Quiz;
 exports.Comment = Comment;
+exports.User = User;
 
 sequelize.sync().then(function(){
-	Quiz.count().then(function(count){
-		if(count===0){
-			Quiz.create({
-				pregunta:"Capital de Italia",
-				respuesta:"Roma"
-			});
-			Quiz.create({
-				pregunta:"Capital de Portugal",
-				respuesta:"Lisboa"
-			}).then(function(){console.log("Base de datos inicializada")});
-		}
+	User.bulkCreate([{username:'admin',password:'1234',isAdmin:true},
+		{username:'pepe',password:'5678'}]).then(function(){
+		Quiz.count().then(function(count){
+			if(count===0){
+				Quiz.create({
+					pregunta:"Capital de Italia",
+					respuesta:"Roma"
+				});
+				Quiz.create({
+					pregunta:"Capital de Portugal",
+					respuesta:"Lisboa"
+				}).then(function(){console.log("Base de datos inicializada")});
+			}
+		});
 	});
 });
