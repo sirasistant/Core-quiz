@@ -43,10 +43,10 @@ exports.Comment = Comment;
 exports.User = User;
 
 sequelize.sync().then(function(){
-	User.bulkCreate([{username:'admin',password:'1234',isAdmin:true},
-		{username:'pepe',password:'5678'}]).then(function(){
 		Quiz.count().then(function(count){
 			if(count===0){
+				User.bulkCreate([{username:'admin',password:'1234',isAdmin:true},
+					{username:'pepe',password:'5678'}]).then(function(){
 				Quiz.create({
 					pregunta:"Capital de Italia",
 					respuesta:"Roma"
@@ -54,8 +54,8 @@ sequelize.sync().then(function(){
 				Quiz.create({
 					pregunta:"Capital de Portugal",
 					respuesta:"Lisboa"
-				}).then(function(){console.log("Base de datos inicializada")});
+				}).then(function(){console.log("Base de datos inicializada");});
+				});
 			}
-		});
 	});
 });
