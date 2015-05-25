@@ -12,7 +12,7 @@ exports.load = function(req,res,next,userId){
 	}).catch(function(error){
 		next(error);
 	});
-
+}
 exports.ownershipRequired = function (req, res, next) {
 	var objUser = req.user.id;
 	var logUser = req.session.user.id;
@@ -66,7 +66,7 @@ exports.new = function(req,res){
 	res.render('user/new',{user:user,errors:[]});
 };
 
-exports.create = function(req,res){
+exports.create = function(req,res,next){
 	var user= models.User.build(req.body.user);
 	user.validate().then(function(err){
 		if(err){
@@ -80,7 +80,7 @@ exports.create = function(req,res){
 	}).catch(function(error){next(error);});
 };
 
-exports.destroy = function(req,res){
+exports.destroy = function(req,res,next){
 	req.user.destroy().then(function(){
 		delete req.session.user;
 		res.redirect('/');
