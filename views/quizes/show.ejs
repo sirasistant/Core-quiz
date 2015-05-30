@@ -1,20 +1,25 @@
+<div class="jumbotron row">
+<h2>Pregunta: <%= quiz.pregunta %></h2>
 <%if (quiz.image){%>
-<p><img class="quiz_img" src ="/media/<%= quiz.image %>"></p>
+ <div class="col-sm-4"><img class="quiz_img" src ="/media/<%= quiz.image %>"></div>
 <%}%>
-<form method="get" action="/quizes/<%= quiz.id %>/answer">
-	Pregunta: <%= quiz.pregunta %> <p>
-	<input type="text" name="respuesta" value="Respuesta"/>
-	<input type="submit" value="Enviar">
+<div class=" <%if (quiz.image){%> col-sm-8 <%}%>" >
+<form  class="form-horizontal row" role="form" method="get" action="/quizes/<%= quiz.id  %>/answer">
+<div class="col-sm-8">
+	<input  type="text" class="form-control" name="respuesta" value="Respuesta"/></div>
+	<div class="col-sm-4">
+	<input class="btn btn-success" type="submit" value="Enviar"></div>
 </form>
 
-<p><a href="/quizes/<%= quiz.id %>/comments/new"><button>Nuevo comentario</button></a></p>
-
-<p><strong>Comentarios:</strong></p>
+<h2>Comentarios:</h2>
 <%for( index in quiz.Comments){%>
 	<% if(quiz.Comments[index].publicado){%>
 		<p>- <%=quiz.Comments[index].texto%></p>
 	<%} else if(session.user && (session.user.isAdmin || (session.user && quiz.UserId === session.user.id))){%>
 			<p>- <%=quiz.Comments[index].texto%>
-			<a href="/quizes/<%= quiz.id %>/comments/<%=quiz.Comments[index].id%>/publish"><button>Publicar</button></a></p>
+			<a class="btn btn-warning" href="/quizes/<%= quiz.id %>/comments/<%=quiz.Comments[index].id%>/publish">Publicar</a></p>
 	<%}%>
 <%}%>
+<a class="btn btn-info" style="margin-top:10px" href="/quizes/<%= quiz.id %>/comments/new">Nuevo comentario</a>
+</div>
+</div>
