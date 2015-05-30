@@ -12,7 +12,7 @@
 </form>
 
 <h2>Comentarios:</h2>
-<%for( index in quiz.Comments){%>
+<%for(var index=0;index<quiz.Comments.length;index++){%>
 	<% if(quiz.Comments[index].publicado){%>
 		<p>- <%=quiz.Comments[index].texto%></p>
 	<%} else if(session.user && (session.user.isAdmin || (session.user && quiz.UserId === session.user.id))){%>
