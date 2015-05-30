@@ -1,0 +1,43 @@
+body {padding-top:20px}
+section > div {padding: 20px;}
+footer {background: #eee;text-align: center;}
+.center {margin:auto}
+#ErrorMsgs {color:#f61;font-size: smaller}
+.right {float: right;}
+.quiz_img {height: 150px; float: left;}
+.imageButton {
+    border: none;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+}
+.fillColumn{
+	width:100%;
+}
+.bigImage{
+	height:900px;
+}
+.minijumbo{
+	padding:20px;
+	background-color:rgb(240, 240, 240);
+	border-radius: 6px;
+}
+.inline{
+	display:inline;
+}
+
+tr.spaceUnder > td
+{
+  padding-top:20px;
+  padding-bottom:20px;
+}
+.colPadding{
+  padding:10px;
+}
+
+tr.tableColPadding > td
+{
+  padding-top:20px;
+  padding-bottom:20px;
+}
+
