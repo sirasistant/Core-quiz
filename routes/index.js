@@ -14,7 +14,7 @@ var factsController = require('../controllers/facts_controller')
 // Homepage
 router.get('/', function(req, res, next) {
 	factsController.getFacts(function(facts){
-		res.render('index', { title: 'Quiz' , CNFact: facts.CNFact, NumberFact: facts.NumberFact, errors: facts.errors});
+		res.render('index', { title: 'Quiz' , facts: facts.facts, errors: facts.errors});
 	});
 });
 
