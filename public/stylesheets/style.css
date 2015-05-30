@@ -1,12 +1,6 @@
-*	{margin:0;padding: 0;}
-body	{font: 16px Georgia,serif;}
-
-#page-wrap	{margin: 2% auto; color:white;}	
-#page-wrap > .main {border: 1px solid #999;padding: 1%;margin-bottom: 1px;color: black}
+body {padding-top:20px}
 section > div {padding: 20px;}
-header , nav , section {background:#eee;text-align: center;}
 footer {background: #eee;text-align: center;}
-nav span {margin: 0px 10px 0px 0px;width:100%; display:inline-block;}
 .center {margin:auto}
 #ErrorMsgs {color:#f61;font-size: smaller}
 .right {float: right;}
@@ -17,3 +11,33 @@ nav span {margin: 0px 10px 0px 0px;width:100%; display:inline-block;}
     padding: 0;
     background: transparent;
 }
+.fillColumn{
+	width:100%;
+}
+.bigImage{
+	height:900px;
+}
+.minijumbo{
+	padding:20px;
+	background-color:rgb(240, 240, 240);
+	border-radius: 6px;
+}
+.inline{
+	display:inline;
+}
+
+tr.spaceUnder > td
+{
+  padding-top:20px;
+  padding-bottom:20px;
+}
+.colPadding{
+  padding:10px;
+}
+
+tr.tableColPadding > td
+{
+  padding-left:10px;
+  padding-right:10px;
+}
+

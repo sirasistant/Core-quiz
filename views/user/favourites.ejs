@@ -1,5 +1,8 @@
+<div class="minijumbo">
+<h1>Preguntas favoritas</h1>
+<table  class="center ">
 <% var i; for(i=0;i<user.Quizzes.length;i++){ %>
-	<tr>
+	<tr class="jumborow spaceUnder tableColPadding">
 		<td><a href="/quizes/<%= user.Quizzes[i].id %>"><%= user.Quizzes[i].pregunta %></a></td>
 		<% if(session.user){
 		 if(session.user.isAdmin || session.user.id === user.Quizzes[i].UserId) {%> 
@@ -15,3 +18,4 @@
 	</tr>
 <% } %>
 </table>
+</div>

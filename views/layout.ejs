@@ -9,30 +9,48 @@
 	<link rel='stylesheet' type='text/css'
 	 media='only screen and (max-width: 480px) '
 	 href='/stylesheets/smartphone.css'/>
+	 <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.min.css">
+      <script src="./js/jquery-1.11.3.min.js"></script>
+     <script src="./js/bootstrap.min.js"></script>
 </head>
 
 <body>
-<div id="page-wrap">
-	<header class="main" id="h1">
-		<% if(!session.user){ %>
-			<span class="right"><a href="/user">Sign up</a><a href="/login" >Login</a></span>
-		<%}else{%>
-			<span class="right"><%= session.user.username %></span> 
-			 <a href="/user/<%=session.user.id%>/edit">Settings</a>
-			 <a href="/logout" >Logout</a></span>
-			 <a href="/user/<%=session.user.id%>/favourites">Favourites</a>
-		<%}%>
-		<h2>Quiz: el juego de las preguntas </h2>
-	</header>
-
-	<nav class="main" id="n1" role="navigation">
-		<span><a href="/">Inicio</a></span>
-		<span><a href="/quizes">Preguntas</a></span>
-		<% if(session.user){%>
-		<span><a  href="/user/<%=session.user.id%>/quizes">Mis preguntas</a></span>
-		<%}%>
-		<span><a href="/author">Autores</a></span>
-	</nav>
+<div class="container">
+    <!-- Static navbar -->
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Quiz project</a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/">Inicio</a></li>
+				<li><a href="/quizes">Preguntas</a></li>
+				<% if(session.user){%>
+				<li><a  href="/user/<%=session.user.id%>/quizes">Mis preguntas</a></li>
+				<%}%>
+				<li><a href="/author">Autores</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            <% if(!session.user){ %>
+				<li><a href="/user">Sign up</a></li>
+				<li><a href="/login" >Login</a></li>
+			<% }else{ %>
+				<li><a ><%= session.user.username %></a></li>
+				<li> <a href="/user/<%=session.user.id%>/edit">Settings</a></li>
+				<li> <a href="/logout" >Logout</a></span></li>
+				<li> <a href="/user/<%=session.user.id%>/favourites">Favourites</a></li>
+			<%}%>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+      </nav>
 	<section class="main" id="s1" >
 		<% if (errors.length){ %>
 			<span id="ErrorMsgs">

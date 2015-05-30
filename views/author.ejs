@@ -1,5 +1,11 @@
-<h1><%= authors %></h1>
-<p><%= author1.name %></p>
-<img src=<%= author1.photo %> ></img>
-<p><%= author2.name %></p>
-<img src=<%= author2.photo %> ></img>
+<div class="jumbotron row">
+	<h1><%= authors %></h1>
+	<div class="col-sm-6">
+		<p><%= author1.name %></p>
+		<img class="fillColumn bigImage" src="<%= author1.photo %> "></img>
+	</div>
+	<div class="col-sm-6">
+		<p><%= author2.name %></p>
+		<img class="fillColumn bigImage" src="<%= author2.photo %> "></img>
+	</div>
+</div>
