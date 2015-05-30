@@ -7,13 +7,15 @@ var commentController = require('../controllers/comment_controller');
 var sessionController=require('../controllers/session_controller');
 var userController=require('../controllers/user_controller');
 var favouriteController=require('../controllers/favourite_controller');
+var factsController = require('../controllers/facts_controller')
 
 
 
 // Homepage
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Quiz' ,
-      errors:[]});
+	factsController.getFacts(function(facts){
+		res.render('index', { title: 'Quiz' , CNFact: facts.CNFact, NumberFact: facts.NumberFact, errors: facts.errors});
+	});
 });
 
 //  Autoload

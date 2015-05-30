@@ -6,16 +6,6 @@
 	<link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.min.css">
 	<script src="/js/jquery-1.11.3.min.js"></script>
 	<script src="/js/bootstrap.min.js"></script>
-	<script>
-		$.get('http://numbersapi.com/random/math', function(data) {
-			$('#numberFact').text(data);
-		});
-	</script>
-	<script>
-		$.get('http://api.icndb.com/jokes/random', function(data) {
-			$('#CHFact').text(data.value.joke.replace(/&quot;/g, "'"));
-		});
-	</script>
 </head>
 
 <body>
@@ -69,18 +59,9 @@
 
 			<div> <%- body %></div>
 		</section>
-		<footer id="f1">
-				<div>
-					<h4>No estás inspirado? Aquí tienes un poco de sabiduría aleatoria (a la par que inútil): </h4>
-					<p id="numberFact"></p>
-					<p id="CHFact"></p>
-				</div>
-			<div>
-			</footer>
-			<footer>
-				<a href="http://es.wikipedia.org/wiki/Quiz">
-					¿Qué es un Quiz?</a>
-				</div>
+		<footer>
+			<a href="http://es.wikipedia.org/wiki/Quiz">
+				¿Qué es un Quiz?</a>
 			</footer>
 		</div>
 	</body>
