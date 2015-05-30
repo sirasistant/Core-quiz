@@ -10,7 +10,7 @@ Answer questions, create or comment them. Share your endless knowledge with your
 Designed using Node.js to be implemented as a Heroku app, it is really easy to fork us and create your own quiz. 
 By the way, we are no designers, so yay bootstrap!
 
------
+----
 
 #Installation
 
