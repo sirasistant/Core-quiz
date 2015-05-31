@@ -1,6 +1,6 @@
 body {padding-top:20px}
 section > div {padding: 20px;}
-footer {background: #eee;text-align: center;}
+footer {background: #eee;text-align: center; padding: 5px; border-radius: 5px; margin: 20px;}
 .center {margin:auto}
 #ErrorMsgs {color:#f61;font-size: smaller}
 .right {float: right;}
@@ -37,7 +37,7 @@ tr.spaceUnder > td
 
 tr.tableColPadding > td
 {
-  padding-top:20px;
-  padding-bottom:20px;
+  padding-left:10px;
+  padding-right:10px;
 }
 

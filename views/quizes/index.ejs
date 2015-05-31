@@ -1,26 +1,25 @@
 <div class="row">
-<div class="col-sm-5 colPadding">
-	<div class="minijumbo" style="padding-bottom:80px">
-	<form  class="center form-inline row" role="form" method="get" action="/quizes">
-		<label class="control-label" style="margin-left:10px">Busqueda</label>
-		<input class="form-control"  type="text" name="search" value=""/>
-		<input class="btn  btn-primary" type="submit" value="Buscar">
-	</form>
-	<% if(session.user){ %>
-		<a class="btn  btn-success pull-right" style="margin-top:10px" href="/quizes/new">Crear pregunta</a>
-	<% } %>
+	<div class="col-sm-5 colPadding">
+		<div class="minijumbo" style="padding-bottom:80px">
+			<form  class="center form-inline row" role="form" method="get" action="/quizes">
+				<label class="control-label" style="margin-left:10px">Busqueda</label>
+				<input class="form-control"  type="text" name="search" value=""/>
+				<input class="btn  btn-primary" type="submit" value="Buscar">
+			</form>
+			<% if(session.user){ %>
+			<a class="btn  btn-success pull-right" style="margin-top:10px" href="/quizes/new">Crear pregunta</a>
+			<% } %>
+		</div>
 	</div>
-</div>
-<div class="col-sm-7 colPadding">
-<div class="minijumbo">
-<table class="center ">
-<% var i; for(i=0;i<quizes.length;i++){ %>
-	<tr class="jumborow spaceUnder tableColPadding">
-		<td><a href="/quizes/<%= quizes[i].id %>"><h4><%= quizes[i].pregunta %></h4></a></td>
-		<% if(session.user){
-		 if(session.user.isAdmin || session.user.id === quizes[i].UserId) {%>
-			<td><a class="btn  btn-primary" href="/quizes/<%= quizes[i].id %>/edit">editar</a></td>
-
+	<div class="col-sm-7 colPadding">
+		<div class="minijumbo">
+			<table class="center ">
+				<% var i; for(i=0;i<quizes.length;i++){ %>
+				<tr class="jumborow spaceUnder tableColPadding">
+					<td><a href="/quizes/<%= quizes[i].id %>"><h4><%= quizes[i].pregunta %></h4></a></td>
+					<% if(session.user){
+						if(session.user.isAdmin || session.user.id === quizes[i].UserId) {%>
+						<td><a class="btn  btn-primary" href="/quizes/<%= quizes[i].id %>/edit">editar</a></td>
 			<td>
 				<form method="post" action="/quizes/<%= quizes[i].id %>?_method=delete">
 					<button class="btn  btn-warning" type="submit" onClick="return confirm('Borrar: <%= quizes[i].pregunta %>' );">
