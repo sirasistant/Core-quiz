@@ -4,17 +4,15 @@
 <% var i; for(i=0;i<user.Quizzes.length;i++){ %>
 	<tr class="jumborow spaceUnder tableColPadding">
 		<td><a href="/quizes/<%= user.Quizzes[i].id %>"><%= user.Quizzes[i].pregunta %></a></td>
-		<% if(session.user){
-		 if(session.user.isAdmin || session.user.id === user.Quizzes[i].UserId) {%> 
+		<% if(session.user){ %>
 			<td>
 				<form method="post" action="/user/<%= user.id %>/favourites/<%= user.Quizzes[i].id %>?_method=delete">
 					<button type="submit" onClick="return confirm('Borrar de favoritos: <%= user.Quizzes[i].pregunta %>' );">
-						borrar de favoritos
+						Borrar de favoritos
 					</button>
 				</form>
 			</td>
-			<% } 
-		} %>
+		 <%} %>
 	</tr>
 <% } %>
 </table>
