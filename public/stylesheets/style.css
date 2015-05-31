@@ -41,3 +41,7 @@ tr.tableColPadding > td
   padding-right:10px;
 }
 
+.centerText{
+  text-align:center;
+}
+

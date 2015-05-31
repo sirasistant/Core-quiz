@@ -36,7 +36,7 @@ router.get('/user/:userId(\\d+)/quizes',userController.loadSessionUser,quizContr
 // Quizes
 router.get('/quizes',userController.loadSessionUser,quizController.index);
 router.get('/quizes/:quizId(\\d+)',quizController.show);
-router.get('/quizes/:quizId(\\d+)/answer',quizController.answer);
+router.get('/quizes/:quizId(\\d+)/answer',userController.loadSessionUser,quizController.answer);
 router.get('/quizes/new',sessionController.loginRequired,quizController.new);
 router.post('/quizes/create',sessionController.loginRequired, multer({ dest: './public/media'}),quizController.create);
 router.get('/quizes/:quizId(\\d+)/edit',sessionController.loginRequired,quizController.ownershipRequired, quizController.edit);

@@ -1,24 +1,56 @@
 <script type="text/javascript">
 	$(function(){
 		Morris.Donut({
-  element: 'quizesChart',
-  data: [
-    {label: "Preguntas sin comentarios", value: <%=statistics.quizesWithoutComments%>},
-    {label: "Preguntas con comentarios", value: <%=statistics.quizesWithComments%>}
-  ]
-});
+			  element: 'quizesChart',
+			  data: [
+			    {label: "Preguntas sin comentarios", value: <%=statistics.quizesWithoutComments%>},
+			    {label: "Preguntas con comentarios", value: <%=statistics.quizesWithComments%>}
+			  ]
+			});
+		var leaderDonutData=[];
+		<% for(var i=0;i<top.length;i++){%>
+			leaderDonutData.push({label:"<%=top[i].username%>",value:<%=top[i].count%>});
+		<%}%>
+		Morris.Donut({
+		  element: 'usersDonut',
+		  data: leaderDonutData,
+		  colors: [ '#0266C8','#F90101', '#F2B50F','#00933B']
+		});
 	});
 </script>
 <div class="jumbotron">
-<h1>Estadísticas</h1>
-<div class="row">
-<div class="col-sm-6">
-<p>Preguntas totales: <%=statistics.totalQuizes%></p>
-<p>Comentarios totales: <%=statistics.totalComments%></p>
-<p>Comentarios medios por pregunta: <%=statistics.medianComments%></p>
-</div>
-<div class="col-sm-6">
-<div id="quizesChart"></div>
-</div>
-</div>
+	<h1>Estadísticas</h1>
+	<div class="row">
+		<div class="col-sm-6">
+			<p>Preguntas totales: <%=statistics.totalQuizes%></p>
+			<p>Comentarios totales: <%=statistics.totalComments%></p>
+			<p>Comentarios medios por pregunta: <%=statistics.medianComments%></p>
+		</div>
+		<div class="col-sm-6">
+			<div id="quizesChart"></div>
+		</div>
+	</div>
+	
+	<h2>Tabla de líderes</h2>
+		<div class="row">
+		<div class="col-sm-6">
+		<table  class="table table-striped centerText">
+			<tr>
+				<th class="centerText">Usuario</th>
+				<th class="centerText">Correctas</th>
+			</tr>
+			<% for(var i=0;i<top.length;i++){%>
+				<tr>
+					<td><%= top[i].username %></td>
+					<td><%= top[i].count %></td>
+				</tr>
+			<%}%>
+		</table>
+		</div>
+		<div class="col-sm-6">
+			<div id="usersDonut" ></div>
+		</div>
+		
+	</div>
+	
 </div>
