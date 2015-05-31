@@ -5,15 +5,15 @@
 	<tr class="jumborow spaceUnder tableColPadding">
 		<td><a href="/quizes/<%= user.Quizzes[i].id %>"><%= user.Quizzes[i].pregunta %></a></td>
 		<% if(session.user){
-		 if(session.user.isAdmin || session.user.id === user.Quizzes[i].UserId) {%> 
+		 %> 
 			<td>
 				<form method="post" action="/user/<%= user.id %>/favourites/<%= user.Quizzes[i].id %>?_method=delete">
-					<button type="submit" onClick="return confirm('Borrar de favoritos: <%= user.Quizzes[i].pregunta %>' );">
+					<button class="btn btn-warning" type="submit" onClick="return confirm('Borrar de favoritos: <%= user.Quizzes[i].pregunta %>' );">
 						borrar de favoritos
 					</button>
 				</form>
 			</td>
-			<% } 
+			<% 
 		} %>
 	</tr>
 <% } %>

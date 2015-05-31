@@ -1,5 +1,15 @@
 <div class="jumbotron row">
-<h2>Pregunta: <%= quiz.pregunta %></h2>
+<%if(session.user){%>
+<form class="form-inline" style="margin: 0; padding: 0;" onsubmit="if(<%= isFavourite %>)return confirm('Are you sure?');else return true;" method="post" action="/user/<%= session.user.id %>/favourites/<%= quiz.id %>?_method=<%= isFavourite? 'delete': 'put' %>">
+<%}%>
+<label class="control-label" style="font-size:50px">Pregunta: <%= quiz.pregunta %></label>
+<%if(session.user){%>
+	<button class="imageButton" type="submit"><img src="/<%= isFavourite? 'favourited.png': 'unfavourited.png' %>" /></button>
+<%}%>
+<%if(session.user){%>
+</form>
+<%}%>
+
 <%if (quiz.image){%>
  <div class="col-sm-4"><img class="quiz_img" src ="/media/<%= quiz.image %>"></div>
 <%}%>

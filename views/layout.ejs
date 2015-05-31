@@ -29,6 +29,7 @@
 						<li><a href="/">Inicio</a></li>
 						<li><a href="/quizes">Preguntas</a></li>
 						<% if(session.user){%>
+						<li> <a href="/user/<%=session.user.id%>/favourites">Favoritas</a></li>
 						<li><a  href="/user/<%=session.user.id%>/quizes">Mis preguntas</a></li>
 						<%}%>
 						<li><a href="/quizes/statistics">Estadísticas</a></li>
@@ -42,7 +43,6 @@
 						<li><a ><%= session.user.username %></a></li>
 						<li> <a href="/user/<%=session.user.id%>/edit">Ajustes</a></li>
 						<li> <a href="/logout" >Cerrar sesión</a></span></li>
-						<li> <a href="/user/<%=session.user.id%>/favourites">Favoritas</a></li>
 						<%}%>
 					</ul>
 				</div><!--/.nav-collapse -->

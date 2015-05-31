@@ -28,6 +28,7 @@
 					</button>
 				</form>
 			</td>
+				<% } %>
 			<td>
 				<form onsubmit="if(<%= favourited[i] %>)return confirm('Are you sure?');else return true;" method="post" action="/user/<%= session.user.id %>/favourites/<%= quizes[i].id %>?_method=<%= favourited[i]? 'delete': 'put' %>">
 					<button class="imageButton" type="submit"><img src="/<%= favourited[i]? 'favourited.png': 'unfavourited.png' %>" />
@@ -35,8 +36,8 @@
 					</button>
 				</form>
 				</td>
-			<% } 
-		} %>
+		
+		<%} %>
 	</tr>
 <% } %>
 </table>
