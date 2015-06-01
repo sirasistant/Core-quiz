@@ -7,6 +7,20 @@ var bodyParser = require('body-parser');
 var partials=require('express-partials');
 var methodOverride = require('method-override');
 var session=require('express-session');
+var azureStorage = require('azure-storage');
+
+var blobService = azureStorage.createBlobService(process.env.STORAGE_ACCOUNT, process.env.STORAGE_KEY);
+
+blobService.createContainerIfNotExists('core', function (error, result, response) {
+    if (!error) {
+        console.log("CORE container created");
+    }
+    else {
+        console.log("An error occurred creating the container: " + error.message);
+    }
+});
+
+exports.blobService = blobService;
 
 var routes = require('./routes/index');
 

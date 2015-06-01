@@ -1,11 +1,12 @@
 var models = require('../models/models.js');
+var app = require('../app.js');
 
 exports.ownershipRequired = function (req, res, next) {
 	var objQuizOwner = req.quiz.UserId;
 	var logUser = req.session.user.id;
 	var isAdmin = req.session.user.isAdmin;
-	
-	if(isAdmin || objQuizOwner === logUser) {
+
+	if (isAdmin || objQuizOwner === logUser) {
 		next();
 	} else {
 		res.redirect('/');
@@ -15,7 +16,7 @@ exports.ownershipRequired = function (req, res, next) {
 exports.load = function (req, res, next, quizId) {
 	models.Quiz.find({
 		where: { id: Number(quizId) },
-		include: [{ model: models.Comment },{model:models.User}]
+		include: [{ model: models.Comment }, { model: models.User }]
 	}).then(
 		function (quiz) {
 			if (quiz) {
@@ -26,30 +27,37 @@ exports.load = function (req, res, next, quizId) {
 };
 
 exports.show = function (req, res) {
-	var show=function(isFavourite){
-		res.render('quizes/show', { quiz: req.quiz, errors: [],isFavourite:isFavourite });
+	var show = function (isFavourite) {
+		if (req.quiz.image) {
+			console.log(req.quiz.image);
+			app.blobService.getBlobToLocalFile('core', req.quiz.image, './public/media/' + req.quiz.image, function (err, result, response) {
+				if(err) console.log(err.message);
+				res.render('quizes/show', { quiz: req.quiz, errors: [], isFavourite: isFavourite });
+			});
+		}
+		else res.render('quizes/show', { quiz: req.quiz, errors: [], isFavourite: isFavourite });
 	}
-	if(req.session.user){
-		req.quiz.hasUser(req.session.user.id).then(function(hasUser){
+	if (req.session.user) {
+		req.quiz.hasUser(req.session.user.id).then(function (hasUser) {
 			show(hasUser);
 		});
-	}else{
+	} else {
 		show(false);
 	}
-	
+
 };
 
 exports.answer = function (req, res) {
 	models.Quiz.find(req.params.quizId).then(function (quiz) {
-		var correct=req.query.respuesta.toLowerCase().trim() === req.quiz.respuesta.toLowerCase().trim();
+		var correct = req.query.respuesta.toLowerCase().trim() === req.quiz.respuesta.toLowerCase().trim();
 		console.log(correct);
-		if(correct&&req.currentUser){
-			quiz.addSolver(req.currentUser).then(function(){
+		if (correct && req.currentUser) {
+			quiz.addSolver(req.currentUser).then(function () {
 				res.render('quizes/answer', { quiz: req.quiz, errors: [], respuesta: 'Correcto' });
 			})
-		}	
+		}
 		else
-			if(correct)
+			if (correct)
 				res.render('quizes/answer', { quiz: req.quiz, errors: [], respuesta: 'Correcto' });
 			else
 				res.render('quizes/answer', { quiz: req.quiz, errors: [], respuesta: 'Incorrecto' });
@@ -57,32 +65,32 @@ exports.answer = function (req, res) {
 };
 
 exports.index = function (req, res) {
-	var options={};
-	if(req.user){
-		options.where = {UserId:req.user.id}
+	var options = {};
+	if (req.user) {
+		options.where = { UserId: req.user.id }
 	}
 
-	var findFavourites=function(quizes,then){
-		var userHasQuiz = function(user, quiz, callback) {
-				user.hasQuiz(quiz.id).then(function(result){
-					return callback(quiz, result);
+	var findFavourites = function (quizes, then) {
+		var userHasQuiz = function (user, quiz, callback) {
+			user.hasQuiz(quiz.id).then(function (result) {
+				return callback(quiz, result);
+			});
+		};
+		var favourited = [].repeat(false, quizes.length);
+		var checked = 0;
+
+		if (req.currentUser && quizes.length > 0) {
+			for (var i = 0; i < quizes.length; i++) {
+				quizes[i].indexInArr = i;
+				userHasQuiz(req.currentUser, quizes[i], function (quiz, result) {
+					favourited[quiz.indexInArr] = result;
+					checked++;
+					if (checked == quizes.length) then(favourited);
 				});
-			};
-			var favourited= [].repeat(false, quizes.length);
-			var checked=0;
-			
-			if(req.currentUser&&quizes.length>0){
-				for(var i=0;i<quizes.length;i++){
-					quizes[i].indexInArr=i;
-					userHasQuiz(req.currentUser, quizes[i], function(quiz, result){
-						favourited[quiz.indexInArr] = result;
-						checked++;
-						if(checked == quizes.length) then(favourited);
-					});
-				}
-			}else{
-				then(favourited);
 			}
+		} else {
+			then(favourited);
+		}
 	}
 
 	if (req.query.search !== undefined) {
@@ -95,19 +103,19 @@ exports.index = function (req, res) {
 					return 1;
 				return -1;
 			});
-			findFavourites(quizes,function(favourited){
-				res.render('quizes/index.ejs', { quizes: quizes, errors: [],favourited:favourited });
+			findFavourites(quizes, function (favourited) {
+				res.render('quizes/index.ejs', { quizes: quizes, errors: [], favourited: favourited });
 			})
 		});
 	} else {
 		models.Quiz.findAll(options).then(function (quizes) {
-			var show=function(favourited){
+			var show = function (favourited) {
 				console.log(favourited);
-				res.render('quizes/index.ejs', { quizes: quizes, errors: [],favourited:favourited });
+				res.render('quizes/index.ejs', { quizes: quizes, errors: [], favourited: favourited });
 			}
-			findFavourites(quizes,show);
+			findFavourites(quizes, show);
 		});
-		
+
 	}
 };
 
@@ -120,15 +128,16 @@ exports.new = function (req, res) {
 
 exports.create = function (req, res) {
 	req.body.quiz.UserId = req.session.user.id;
-	if(req.files.image) {
+	if (req.files.image) {
 		req.body.quiz.image = req.files.image.name;
+		app.blobService.createBlockBlobFromLocalFile('core', req.files.image.name, './public/media/' + req.files.image.name, function (err, result, response) { if (err) console.log("Couldn't upload to azure: " + err.message); });
 	}
 	var quiz = models.Quiz.build(req.body.quiz);
 	quiz.validate().then(function (err) {
 		if (err) {
 			res.render('quizes/new', { quiz: quiz, errors: err.errors });
 		} else {
-			quiz.save({ fields: ["pregunta", "respuesta", "image","UserId"] }).then(function () {
+			quiz.save({ fields: ["pregunta", "respuesta", "image", "UserId"] }).then(function () {
 				res.redirect("/quizes");
 			});
 		}
@@ -142,12 +151,12 @@ exports.edit = function (req, res) {
 };
 
 exports.update = function (req, res) {
-	if(req.files.image) {
+	if (req.files.image) {
 		req.quiz.image = req.files.image.name;
+		app.blobService.createBlockBlobFromLocalFile('core', req.files.image.name, './public/media/' + req.files.image.name, function (err, result, response) { if (err) console.log("Couldn't upload to azure: " + err.message); });
 	}
 	req.quiz.pregunta = req.body.quiz.pregunta;
 	req.quiz.respuesta = req.body.quiz.respuesta;
-
 	req.quiz.validate().then(function (err) {
 		if (err) {
 			res.render('quizes/edit', { quiz: req.quiz, errors: err.errors });
@@ -167,36 +176,36 @@ exports.destroy = function (req, res) {
 };
 
 exports.getStatistics = function (req, res) {
-	models.Quiz.findAll({include: [{ model: models.Comment }]}).then(function (quizes) {
-		models.User.findAll().then(function(users){
-			var findLeaderBoard=function(userArr,callback){
-				var countSolutions=function(user,callback){
-					user.getSolutions().then(function(solutions){
-						callback(user,solutions.length);
+	models.Quiz.findAll({ include: [{ model: models.Comment }] }).then(function (quizes) {
+		models.User.findAll().then(function (users) {
+			var findLeaderBoard = function (userArr, callback) {
+				var countSolutions = function (user, callback) {
+					user.getSolutions().then(function (solutions) {
+						callback(user, solutions.length);
 					});
 				}
-				var leaderBoard=[];
-				var finished=0;
-				if(userArr.length>0){
-					for(var i=0;i<userArr.length;i++){
-						countSolutions(userArr[i],function(user,count){
-							leaderBoard.push({username:user.username,count:count});
+				var leaderBoard = [];
+				var finished = 0;
+				if (userArr.length > 0) {
+					for (var i = 0; i < userArr.length; i++) {
+						countSolutions(userArr[i], function (user, count) {
+							leaderBoard.push({ username: user.username, count: count });
 							finished++;
-							if(finished===userArr.length){
-								leaderBoard.sort(function(a,b){
-									return b.count-a.count;
+							if (finished === userArr.length) {
+								leaderBoard.sort(function (a, b) {
+									return b.count - a.count;
 								});
 								callback(leaderBoard);
 							}
 						});
 					}
 				}
-				else{
+				else {
 					callback(leaderBoard);
 				}
 			}
 
-			findLeaderBoard(users,function(leaderBoard){
+			findLeaderBoard(users, function (leaderBoard) {
 				console.log(leaderBoard);
 				var statistics = {
 					totalQuizes: quizes.length,
@@ -206,17 +215,17 @@ exports.getStatistics = function (req, res) {
 					medianComments: 0
 				};
 				for (var i = 0; i < quizes.length; i++) {
-					if(!quizes[i].Comments || quizes[i].Comments.length === 0){
-						 statistics.quizesWithoutComments++;
-						 continue;
+					if (!quizes[i].Comments || quizes[i].Comments.length === 0) {
+						statistics.quizesWithoutComments++;
+						continue;
 					}
-					for(var j = 0; j < quizes[i].Comments.length; j++) {
+					for (var j = 0; j < quizes[i].Comments.length; j++) {
 						statistics.totalComments++;
 					}
 					statistics.quizesWithComments++;
 				}
-				statistics.medianComments = statistics.totalComments/statistics.totalQuizes;
-				res.render('quizes/statistics', {statistics: statistics, errors: [],top:leaderBoard});
+				statistics.medianComments = statistics.totalComments / statistics.totalQuizes;
+				res.render('quizes/statistics', { statistics: statistics, errors: [], top: leaderBoard });
 			});
 		});
 	});
