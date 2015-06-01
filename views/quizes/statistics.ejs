@@ -5,7 +5,8 @@
 			  data: [
 			    {label: "Preguntas sin comentarios", value: <%=statistics.quizesWithoutComments%>},
 			    {label: "Preguntas con comentarios", value: <%=statistics.quizesWithComments%>}
-			  ]
+			  ],
+			  resize:true
 			});
 		var leaderDonutData=[];
 		<% for(var i=0;i<top.length;i++){%>
@@ -14,7 +15,8 @@
 		Morris.Donut({
 		  element: 'usersDonut',
 		  data: leaderDonutData,
-		  colors: [ '#0266C8','#F90101', '#F2B50F','#00933B']
+		  colors: [ '#0266C8','#F90101', '#F2B50F','#00933B'],
+			  resize:true
 		});
 	});
 </script>
